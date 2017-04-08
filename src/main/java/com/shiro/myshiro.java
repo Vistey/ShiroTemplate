@@ -53,7 +53,9 @@ public class myshiro extends AuthorizingRealm {
     return info;
   }
 
-  //设置session
+  /**
+   * 设置session
+   */
   private void setSession(String key, Object value){
     Subject subject = SecurityUtils.getSubject();
     if (subject.isAuthenticated()){
