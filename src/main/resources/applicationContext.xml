@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--shiro bean的配置文件  参考http://shiro.apache.org/spring.html-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--shiro安全管理中心，核心安全管理接口-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录时的链接（登录页面地址），非必须的属性，默认会自动寻找web工程根目录下的“/login.jsp”页面-->
+        <property name="loginUrl" value="/login/"/>
+        <!--登录成功后的跳转链接 不设置的话shiro会自动跳转上次的请求路径-->
+        <property name="successUrl" value="/"/>
+        <!--用户访问未对其授权的资源时，所显示的链接-->
+        <property name="unauthorizedUrl" value="/error/reject.html"/>
+        <!--权限过滤器集合-->
+        <property name="filters">
+            <map>
+                <!--authc验证需要用formAuthenFilter来验证-->
+                <!--logout也是同理-->
+                <entry key="authc" value-ref="formAuthenFilter"/>
+                <entry key="logout" value-ref="logout"/>
+            </map>
+        </property>
+
+        <!--authc已验证用户 anno无需验证用户-->
+        <property name="filterChainDefinitions">
+            <value>
+                /logout = logout
+                /login = authc
+                /test/** = anno
+                /** authc
+            </value>
+        </property>
+    </bean>
+
+    登录验证Filter，无需再controller中写任何登录操作
+    <bean id="formAuthenFilter" class="DefaultFormAuthenticationFilter"
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--多realms配置-->
+        <property name="realms">
+            <list>
+                <ref bean="defaultRealm"/>
+            </list>
+        </property>
+        <!--如果是单个realm只需要注入realm属性即可，如下
+        <property name="realm" value="defaultRealm"/>-->
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- Define the Shiro Realm implementation you want to use to connect to your back-end -->
+    <!-- security datasource: -->
+    <bean id="myRealm" class="...">
+        ...
+    </bean>
+
+</beans>
