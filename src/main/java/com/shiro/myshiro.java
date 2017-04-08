@@ -3,20 +3,35 @@ package com.shiro;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
+/**
+ * 为当前登录的subject授予角色和权限
+ * 该方法调用时机是用户访问权限资源时
+ */
 public class myshiro extends AuthorizingRealm {
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-    return null;
+    //登录用户名
+    String user = (String) super.getAvailablePrincipal(principalCollection);
+    //获取该用户的信息，包括角色（通过数据库获取）,这里方便测试 直接写死了
+    String role = user;
+    //设置角色和权限
+    SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+    //给用户赋予角色
+    info.addRole(role);
+    //添加权限
+    info.addStringPermission("admin"+role);
+    return info;
   }
 
-/*
-  验证当前登录的对象
-  该方法调用的时机是用户执行subject.login()时
-*/
+/**
+ *验证当前登录的对象
+ *该方法调用的时机是用户执行subject.login()时
+ */
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
     UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
     //获取传入的用户名
