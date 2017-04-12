@@ -11,13 +11,6 @@
   <url>http://maven.apache.org</url>
   <dependencies>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
     <!--spring的配置文件-->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -29,7 +22,11 @@
       <artifactId>spring-webmvc</artifactId>
       <version>4.3.7.RELEASE</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>4.3.7.RELEASE</version>
+    </dependency>
 
     <!--shiro配置文件-->
     <dependency>
@@ -52,6 +49,12 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>RELEASE</version>
     </dependency>
 
   </dependencies>
