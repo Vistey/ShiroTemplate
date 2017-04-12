@@ -5,7 +5,7 @@
 
     <bean id="whl" class="com.controller.LookupTest.WhlCarrier" scope="prototype"/>
     <bean id="hjl" class="com.controller.LookupTest.HjlCarrier">
-        <lookup-method name="getEntity" bean="whl"/>
+        <!--<lookup-method name="getEntity" bean="whl"/>-->
     </bean>
 
 </beans>
